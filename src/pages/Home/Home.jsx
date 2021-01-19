@@ -35,13 +35,13 @@ function Home() {
                   <div className="actions">
                     {Can({
                       perform: MODULES.home.list.edit,
-                      data: { userId: user.id, ownerId: row.id },
+                      data: { id: user.id, ownerId: row.id },
                       yes: () => <button>Edit</button>,
                     })}
 
                     {Can({
                       perform: MODULES.home.list.delete,
-                      data: { userId: user.id, ownerId: row.id },
+                      data: { id: user.id, ownerId: row.id },
                       yes: () => <button>Delete</button>,
                     })}
                   </div>

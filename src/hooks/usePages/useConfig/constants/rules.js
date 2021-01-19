@@ -1,4 +1,4 @@
-import { ROLES, SUB_ROLES, MODULES } from "./roles-modules";
+import { ROLES, MODULES } from "./roles-modules";
 
 function getDeepKeys(obj) {
   var values = [];
@@ -12,18 +12,24 @@ function getDeepKeys(obj) {
   return values;
 }
 
+const asOwnerCheck = ({ id, ownerId }) => {
+  return !id || !ownerId ? false : id === ownerId;
+};
+
+const subRoleCheck = ({ subRoles = [], validRoles = [] }) => {
+  return validRoles.some((role) => subRoles.includes(role));
+};
+
 export const RULES = {
   [ROLES.admin]: { static: getDeepKeys(MODULES) },
 
   [ROLES.guest]: {
     static: [MODULES.app.guest, MODULES.home.list.view],
     dynamic: {
-      [MODULES.user.visit]: ({ subRoles = [] }) => {
-        return subRoles.includes(SUB_ROLES.userLike);
-      },
-      [MODULES.user.link]: ({ subRoles = [] }) => {
-        return subRoles.includes(SUB_ROLES.userLike);
-      },
+      [MODULES.app.links.home]: subRoleCheck,
+      [MODULES.app.links.user]: subRoleCheck,
+      [MODULES.user.visit]: subRoleCheck,
+      [MODULES.app.user]: subRoleCheck,
     },
   },
 
@@ -31,25 +37,17 @@ export const RULES = {
     static: [
       MODULES.app.links.home,
       MODULES.app.links.user,
-      MODULES.user.link,
-      MODULES.user.visit,
       MODULES.app.guest,
       MODULES.app.user,
+      MODULES.user.visit,
       MODULES.home.list.view,
     ],
     dynamic: {
-      [MODULES.home.list.edit]: ({ userId, ownerId }) => {
-        return !userId || !ownerId ? false : userId === ownerId;
-      },
-      [MODULES.home.list.delete]: ({ userId, ownerId }) => {
-        return !userId || !ownerId ? false : userId === ownerId;
-      },
-      [MODULES.admin.visit]: ({ subRoles = [] }) => {
-        return subRoles.includes(SUB_ROLES.adminLike);
-      },
-      [MODULES.app.links.admin]: ({ subRoles = [] }) => {
-        return subRoles.includes(SUB_ROLES.adminLike);
-      },
+      [MODULES.app.links.admin]: subRoleCheck,
+      [MODULES.app.admin]: subRoleCheck,
+      [MODULES.home.list.edit]: asOwnerCheck,
+      [MODULES.home.list.delete]: asOwnerCheck,
+      [MODULES.admin.visit]: subRoleCheck,
     },
   },
 };

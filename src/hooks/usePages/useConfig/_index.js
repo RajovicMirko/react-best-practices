@@ -1,5 +1,11 @@
 import { auth } from "./auth";
-import { ROLES, MODULES, RULES, generatePages } from "./constants/_index";
+import {
+  ROLES,
+  SUB_ROLES,
+  MODULES,
+  RULES,
+  generatePages,
+} from "./constants/_index";
 import Can from "../components/Can";
 
 const useConfig = () => {
@@ -11,6 +17,7 @@ const useConfig = () => {
     pages,
     fallbackPath,
     ROLES,
+    SUB_ROLES,
     MODULES,
     RULES,
     Can,

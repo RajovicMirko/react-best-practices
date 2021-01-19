@@ -1,10 +1,10 @@
 // connect with app auth from auth context, class, etc...
 const defaultAuth = {
-  // isAuthenticated: false,
+  isAuthenticated: false,
   user: {
     id: "1",
     name: "Mirko",
-    role: "user",
+    role: "admin",
     subRoles: [],
   },
 };

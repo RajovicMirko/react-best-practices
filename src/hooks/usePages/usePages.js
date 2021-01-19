@@ -15,12 +15,19 @@ import useConfig from "./useConfig/_index";
 import RouterView from "./components/RouterView";
 
 const usePages = () => {
-  const { auth, pages, Can, MODULES } = useConfig();
+  const { auth, pages, Can, ROLES, SUB_ROLES, MODULES } = useConfig();
 
   const navLinks = pages.filter((page) => {
     const module = MODULES.app.links[page.name];
     return (
-      module && Can({ perform: module, data: { subRoles: auth.user.subRoles } })
+      module &&
+      Can({
+        perform: module,
+        data: {
+          subRoles: auth.user.subRoles,
+          validRoles: [...Object.values(SUB_ROLES)],
+        },
+      })
     );
   });
 
@@ -30,6 +37,8 @@ const usePages = () => {
     NavLink,
     RouterView,
     navLinks,
+    ROLES,
+    SUB_ROLES,
     MODULES,
     Can,
     auth,

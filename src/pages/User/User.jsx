@@ -3,6 +3,7 @@ import usePages from "hooks/usePages";
 function User() {
   const {
     Can,
+    SUB_ROLES,
     MODULES,
     auth: { user },
     Redirect,
@@ -11,7 +12,8 @@ function User() {
   return Can({
     perform: MODULES.user.visit,
     data: {
-      guestSubRoles: user.subRoles,
+      subRoles: user.subRoles,
+      validRoles: [SUB_ROLES.userLike],
     },
     yes: () => {
       return <h2>User page</h2>;
