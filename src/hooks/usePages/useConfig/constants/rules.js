@@ -7,6 +7,9 @@ export const RULES = {
       [MODULES.user.visit]: ({ guestSubRoles = [] }) => {
         return guestSubRoles.includes(SUB_ROLES.userLike);
       },
+      [MODULES.user.link]: ({ subRoles = [] }) => {
+        return subRoles.includes(SUB_ROLES.userLike);
+      },
     },
   },
 

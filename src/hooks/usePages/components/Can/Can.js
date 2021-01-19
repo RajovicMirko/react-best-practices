@@ -1,4 +1,4 @@
-import useConfig from "../../useConfig";
+import useConfig from "../../useConfig/_index";
 import { check } from "./helper";
 
 const defaultProps = {

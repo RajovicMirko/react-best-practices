@@ -1,6 +1,6 @@
 import { Redirect, Switch } from "react-router-dom";
 import CustomRoute from "../CustomRoute";
-import useConfig from "../../useConfig";
+import useConfig from "../../useConfig/_index";
 
 function RouterView() {
   const { pages, fallbackPath } = useConfig();

@@ -1,11 +1,11 @@
-import _baseMetaData from "./baseMetaData";
+import baseMetaData from "./baseMetaData";
 // pages
 import Error404 from "pages/Error404";
 import Home from "pages/Home";
 import User from "pages/User";
 import Admin from "pages/Admin";
 
-const _generateMetaTitle = (title) => `${_baseMetaData.title} - ${title}`;
+const _generateMetaTitle = (title) => `${baseMetaData.title} - ${title}`;
 
 export const generatePages = (args) => {
   return [
@@ -15,7 +15,7 @@ export const generatePages = (args) => {
       name: "error404",
       label: "Error404",
       meta: {
-        ..._baseMetaData,
+        ...baseMetaData,
         title: "Page not found",
       },
     },
@@ -24,9 +24,8 @@ export const generatePages = (args) => {
       path: "/",
       name: "home",
       label: "Home",
-      isNavLink: true,
       meta: {
-        ..._baseMetaData,
+        ...baseMetaData,
         title: _generateMetaTitle("Home"),
       },
     },
@@ -35,9 +34,8 @@ export const generatePages = (args) => {
       path: "/user",
       name: "user",
       label: "User",
-      isNavLink: true,
       meta: {
-        ..._baseMetaData,
+        ...baseMetaData,
         title: _generateMetaTitle("User"),
       },
     },
@@ -46,9 +44,8 @@ export const generatePages = (args) => {
       path: "/admin",
       name: "admin",
       label: "Admin",
-      isNavLink: true,
       meta: {
-        ..._baseMetaData,
+        ...baseMetaData,
         title: _generateMetaTitle("Admin"),
       },
     },

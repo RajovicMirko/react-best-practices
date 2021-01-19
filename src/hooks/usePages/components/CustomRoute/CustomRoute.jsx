@@ -7,7 +7,6 @@ const defaultProps = {
   path: "",
   name: "",
   label: "",
-  isNavLink: false,
   meta: {
     title: "",
     description: "",

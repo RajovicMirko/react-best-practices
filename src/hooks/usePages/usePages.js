@@ -1,10 +1,18 @@
-import { BrowserRouter, Redirect, NavLink } from "react-router-dom";
-import useConfig from "./useConfig";
-import RouterView from "./components/RouterView";
-
-/* TO-DO
-  navLinks - add logic for navigation links by auth
+/*
+  Created; 17.01.2021;
+  Router export;
+  Redirect export;
+  NavLink export;
+  RouterView; array of all pages routes component and export
+  navLinks - array of available routes by rights and export
+  MODULES - const object with all app modules
+  Can - functional component for auth client test
+  auth - data from authorization module
 */
+
+import { BrowserRouter, Redirect, NavLink } from "react-router-dom";
+import useConfig from "./useConfig/_index";
+import RouterView from "./components/RouterView";
 
 const usePages = () => {
   const { auth, pages, Can, MODULES } = useConfig();
@@ -20,8 +28,8 @@ const usePages = () => {
   return {
     Router: BrowserRouter,
     Redirect,
-    RouterView,
     NavLink,
+    RouterView,
     navLinks,
     MODULES,
     Can,
