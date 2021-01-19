@@ -10,21 +10,27 @@ export const SUB_ROLES = {
 };
 
 export const MODULES = {
+  app: {
+    links: {
+      home: "home:link",
+      user: "user:link",
+      admin: "admin:link",
+    },
+    guest: "app:guest",
+    user: "app:user",
+    admin: "app:admin",
+  },
   home: {
-    link: "home:link",
-    guest: `home:${ROLES.guest}`,
-    user: `home:${ROLES.user}`,
-    admin: `home:${ROLES.admin}`,
-    list: "home:list",
-    edit: "home:list:edit",
-    delete: "home:list:delete",
+    list: {
+      view: "home:list",
+      edit: "home:list:edit",
+      delete: "home:list:delete",
+    },
   },
   user: {
-    link: "user:link",
     visit: "user:visit",
   },
   admin: {
-    link: "admin:link",
     visit: "admin:visit",
   },
 };

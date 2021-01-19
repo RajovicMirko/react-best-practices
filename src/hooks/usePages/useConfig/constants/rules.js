@@ -1,11 +1,25 @@
 import { ROLES, SUB_ROLES, MODULES } from "./roles-modules";
 
+function getDeepKeys(obj) {
+  var values = [];
+  for (var value of Object.values(obj)) {
+    if (typeof value === "object") {
+      values.push(...getDeepKeys(value));
+    } else {
+      values.push(value);
+    }
+  }
+  return values;
+}
+
 export const RULES = {
+  [ROLES.admin]: { static: getDeepKeys(MODULES) },
+
   [ROLES.guest]: {
-    static: [MODULES.home.guest, MODULES.home.list],
+    static: [MODULES.app.guest, MODULES.home.list.view],
     dynamic: {
-      [MODULES.user.visit]: ({ guestSubRoles = [] }) => {
-        return guestSubRoles.includes(SUB_ROLES.userLike);
+      [MODULES.user.visit]: ({ subRoles = [] }) => {
+        return subRoles.includes(SUB_ROLES.userLike);
       },
       [MODULES.user.link]: ({ subRoles = [] }) => {
         return subRoles.includes(SUB_ROLES.userLike);
@@ -15,12 +29,13 @@ export const RULES = {
 
   [ROLES.user]: {
     static: [
-      MODULES.home.link,
+      MODULES.app.links.home,
+      MODULES.app.links.user,
       MODULES.user.link,
       MODULES.user.visit,
-      MODULES.home.guest,
-      MODULES.home.user,
-      MODULES.home.list,
+      MODULES.app.guest,
+      MODULES.app.user,
+      MODULES.home.list.view,
     ],
     dynamic: {
       [MODULES.home.list.edit]: ({ userId, ownerId }) => {
@@ -29,28 +44,12 @@ export const RULES = {
       [MODULES.home.list.delete]: ({ userId, ownerId }) => {
         return !userId || !ownerId ? false : userId === ownerId;
       },
-      [MODULES.admin.visit]: ({ userSubRoles = [] }) => {
-        return userSubRoles.includes(SUB_ROLES.adminLike);
+      [MODULES.admin.visit]: ({ subRoles = [] }) => {
+        return subRoles.includes(SUB_ROLES.adminLike);
       },
-      [MODULES.admin.link]: ({ subRoles = [] }) => {
+      [MODULES.app.links.admin]: ({ subRoles = [] }) => {
         return subRoles.includes(SUB_ROLES.adminLike);
       },
     },
-  },
-
-  [ROLES.admin]: {
-    static: [
-      MODULES.home.link,
-      MODULES.user.link,
-      MODULES.admin.link,
-      MODULES.user.visit,
-      MODULES.admin.visit,
-      MODULES.home.guest,
-      MODULES.home.user,
-      MODULES.home.admin,
-      MODULES.home.list,
-      MODULES.home.list.edit,
-      MODULES.home.list.delete,
-    ],
   },
 };

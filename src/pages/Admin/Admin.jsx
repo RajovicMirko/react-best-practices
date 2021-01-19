@@ -11,7 +11,7 @@ export default function AdminPage() {
   return Can({
     perform: MODULES.admin.visit,
     data: {
-      userSubRoles: user.subRoles,
+      subRoles: user.subRoles,
     },
     yes: () => {
       return <h2>Admin page</h2>;

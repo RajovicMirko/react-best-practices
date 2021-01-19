@@ -23,23 +23,9 @@ function Home() {
   return (
     <>
       <h2>Home page</h2>
-      <div className="sub-title">
-        {Can({
-          perform: MODULES.home.guest,
-          yes: () => <h4>Guest can see</h4>,
-        })}
-        {Can({
-          perform: MODULES.home.user,
-          yes: () => <h4>User {user.name || "name-empty"} can see</h4>,
-        })}
-        {Can({
-          perform: MODULES.home.admin,
-          yes: () => <h4>Admin can see</h4>,
-        })}
-      </div>
 
       {Can({
-        perform: MODULES.home.list,
+        perform: MODULES.home.list.view,
         yes: () => (
           <ul>
             {data.map((row, i) => {

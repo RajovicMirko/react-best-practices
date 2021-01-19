@@ -18,10 +18,9 @@ const usePages = () => {
   const { auth, pages, Can, MODULES } = useConfig();
 
   const navLinks = pages.filter((page) => {
-    const module = MODULES[page.name];
+    const module = MODULES.app.links[page.name];
     return (
-      module &&
-      Can({ perform: module.link, data: { subRoles: auth.user.subRoles } })
+      module && Can({ perform: module, data: { subRoles: auth.user.subRoles } })
     );
   });
 
