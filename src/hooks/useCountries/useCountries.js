@@ -43,10 +43,8 @@ function useCountries() {
         is: true,
         message: error.message,
       });
-
       return false;
     }
-
     return true;
   };
 
@@ -57,9 +55,7 @@ function useCountries() {
 
   const _fetchBorderCountries = async () => {
     _startWork();
-    if (!country.borders || !country.borders.length) {
-      return _endWork();
-    }
+    if (!country.borders || !country.borders.length) return _endWork();
 
     try {
       const apiConfig = {
@@ -95,14 +91,18 @@ function useCountries() {
   // Filter logic ///////////////////////////////////////////////////
   const _fetchRegion = async () => {
     _startWork();
-    if (!_regionFilterValue) {
-      return _endWork();
-    }
+    if (!_regionFilterValue) return _endWork();
 
-    const url = `/region/${_regionFilterValue}`;
-    const result = await Get({ url });
-    _setInitState(result.data);
-    _endWork();
+    try {
+      const apiConfig = {
+        url: `/region/${_regionFilterValue}`,
+      };
+      const result = await Get(apiConfig);
+      _setInitState(result.data);
+      return _endWork();
+    } catch (error) {
+      return _endWork(error);
+    }
   };
   // When _regionFilterValue is changed call _fetchRegion
   useEffect(() => _fetchRegion(), [_regionFilterValue]);
@@ -132,19 +132,32 @@ function useCountries() {
 
   //#region Public functions
   const fetchCountries = async () => {
-    _startWork();
-    const result = await Get({ url: "/all" });
-    _prepareRegionOptions(result.data);
-    _setInitState(result.data);
-    _endWork();
+    try {
+      _startWork();
+      const apiConfig = {
+        url: "/all",
+      };
+      const result = await Get(apiConfig);
+      _prepareRegionOptions(result.data);
+      _setInitState(result.data);
+      return _endWork();
+    } catch (error) {
+      return _endWork(error);
+    }
   };
 
   const fetchByAlpha3Code = async (code3char) => {
-    _startWork();
-    const url = `/alpha/${code3char}`;
-    const result = await Get({ url });
-    _setCountry(result.data);
-    _endWork();
+    try {
+      _startWork();
+      const apiConfig = {
+        url: `/alpha/${code3char}`,
+      };
+      const result = await Get(apiConfig);
+      _setCountry(result.data);
+      return _endWork();
+    } catch (error) {
+      return _endWork(error);
+    }
   };
   //#endregion Public functions
 

@@ -1,4 +1,4 @@
-const encodeQuery = (data) => {
+const _encodeQuery = (data) => {
   if (!data) return null;
 
   const query = Object.keys(data).reduce((acc, key) => {
@@ -12,13 +12,11 @@ const encodeQuery = (data) => {
 
 export const prepareRequestConfig = (args) => {
   const { url = "", query = null, data = null } = args;
+  const config = { url };
 
-  const config = {
-    url,
-  };
-
-  const queryString = encodeQuery(query);
+  const queryString = _encodeQuery(query);
   if (queryString) config["url"] += queryString;
+
   if (data) config["data"] = data;
 
   return config;
