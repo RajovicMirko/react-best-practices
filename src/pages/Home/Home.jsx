@@ -20,6 +20,32 @@ function Home() {
     auth: { user },
   } = usePages();
 
+  const userCanSeeActions = (dynamicCheckData) =>
+    Can({
+      perform: [MODULES.home.list.edit, MODULES.home.list.delete],
+      dynamicCheckData,
+    });
+
+  const handleEdit = (data) => {
+    console.log(data);
+  };
+  const userCanEdit = (dynamicCheckData, row) =>
+    Can({
+      perform: MODULES.home.list.edit,
+      dynamicCheckData,
+      yes: () => <button onClick={() => handleEdit(row)}>Edit</button>,
+    });
+
+  const handleDelete = (data) => {
+    console.log(data);
+  };
+  const userCanDelete = (dynamicCheckData, row) =>
+    Can({
+      perform: MODULES.home.list.delete,
+      dynamicCheckData,
+      yes: () => <button onClick={() => handleDelete(row)}>Delete</button>,
+    });
+
   return (
     <>
       <h2>Home page</h2>
@@ -29,22 +55,21 @@ function Home() {
         yes: () => (
           <ul>
             {data.map((row, i) => {
+              const asOwnerCheckDataObject = {
+                id: user.id,
+                ownerId: row.id,
+              };
+
               return (
                 <li key={row.id + i}>
-                  {row.text}
-                  <div className="actions">
-                    {Can({
-                      perform: MODULES.home.list.edit,
-                      data: { id: user.id, ownerId: row.id },
-                      yes: () => <button>Edit</button>,
-                    })}
-
-                    {Can({
-                      perform: MODULES.home.list.delete,
-                      data: { id: user.id, ownerId: row.id },
-                      yes: () => <button>Delete</button>,
-                    })}
-                  </div>
+                  <span>User id: {row.id}</span>
+                  <span>Row text: {row.text}</span>
+                  {userCanSeeActions(asOwnerCheckDataObject) && (
+                    <div className="actions">
+                      {userCanEdit(asOwnerCheckDataObject, row)}
+                      {userCanDelete(asOwnerCheckDataObject, row)}
+                    </div>
+                  )}
                 </li>
               );
             })}

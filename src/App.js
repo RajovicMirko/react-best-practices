@@ -25,20 +25,18 @@ function App() {
 
         <div className="sub-title">
           <h4>Guest can see</h4>
+
           {Can({
             perform: MODULES.app.user,
-            data: {
+            dynamicCheckData: {
               subRoles: user.subRoles,
               validRoles: [SUB_ROLES.userLike],
             },
             yes: () => <h4>User {user.name || "name-empty"} can see</h4>,
           })}
+
           {Can({
             perform: MODULES.app.admin,
-            data: {
-              subRoles: user.subRoles,
-              validRoles: [SUB_ROLES.adminLike],
-            },
             yes: () => <h4>Admin can see</h4>,
           })}
         </div>

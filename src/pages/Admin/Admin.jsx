@@ -11,7 +11,7 @@ export default function AdminPage() {
 
   return Can({
     perform: MODULES.admin.visit,
-    data: {
+    dynamicCheckData: {
       subRoles: user.subRoles,
       validRoles: [SUB_ROLES.adminLike],
     },

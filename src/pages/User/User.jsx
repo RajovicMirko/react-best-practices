@@ -11,7 +11,7 @@ function User() {
 
   return Can({
     perform: MODULES.user.visit,
-    data: {
+    dynamicCheckData: {
       subRoles: user.subRoles,
       validRoles: [SUB_ROLES.userLike],
     },

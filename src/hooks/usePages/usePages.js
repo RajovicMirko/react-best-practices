@@ -23,7 +23,7 @@ const usePages = () => {
       module &&
       Can({
         perform: module,
-        data: {
+        dynamicCheckData: {
           subRoles: auth.user.subRoles,
           validRoles: [...Object.values(SUB_ROLES)],
         },

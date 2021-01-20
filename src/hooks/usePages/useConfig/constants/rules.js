@@ -45,9 +45,9 @@ export const RULES = {
     dynamic: {
       [MODULES.app.links.admin]: subRoleCheck,
       [MODULES.app.admin]: subRoleCheck,
+      [MODULES.admin.visit]: subRoleCheck,
       [MODULES.home.list.edit]: asOwnerCheck,
       [MODULES.home.list.delete]: asOwnerCheck,
-      [MODULES.admin.visit]: subRoleCheck,
     },
   },
 };

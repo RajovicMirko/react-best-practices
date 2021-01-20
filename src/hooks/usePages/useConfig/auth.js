@@ -4,7 +4,7 @@ const defaultAuth = {
   user: {
     id: "1",
     name: "Mirko",
-    role: "admin",
+    role: "user",
     subRoles: [],
   },
 };

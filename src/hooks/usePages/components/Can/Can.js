@@ -3,23 +3,43 @@ import { check } from "./helper";
 
 const defaultProps = {
   perform: "",
-  data: {},
+  dynamicCheckData: {},
   yes: () => true,
   no: () => false,
 };
 
 const Can = (args) => {
   const { auth, RULES } = useConfig();
-  const { perform, data, yes, no } = { ...defaultProps, ...args };
+  const { perform, dynamicCheckData, yes, no } = { ...defaultProps, ...args };
 
-  const argsCheck = {
-    action: perform,
-    data,
+  let test = null;
+  const initArgsCheck = {
+    dynamicCheckData,
     role: auth.user.role,
     rules: RULES,
   };
 
-  return check(argsCheck) ? yes() : no();
+  if (perform instanceof Array) {
+    // check array perform any true
+    test = perform.some((action) => {
+      const args = {
+        ...initArgsCheck,
+        action,
+      };
+
+      return check(args);
+    });
+  } else {
+    // check single perform true
+    const args = {
+      ...initArgsCheck,
+      action: perform,
+    };
+
+    test = check(args);
+  }
+
+  return test ? yes() : no();
 };
 
 export default Can;
