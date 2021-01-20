@@ -1,27 +1,58 @@
-import axios from "axios";
-import { encodeCountriesQuery } from "./funtions";
+import http from "./config";
+import { prepareRequestConfig } from "./helpers";
+
+/*
+props = {
+  url: string,
+  query: object,
+  data: any
+}
+
+requestConfig = {
+  method: string,
+  url: string,
+  data: any,
+}
+*/
 
 function useApi() {
-  const http = axios.create({
-    baseURL: process.env.REACT_APP_BASE_API_ENDPOINT,
-    timeout: 5000,
-    headers: {
-      "content-type": "application/json",
-    },
-  });
+  const Get = (props) => {
+    const requestConfig = {
+      method: "get",
+      ...prepareRequestConfig(props),
+    };
 
-  const getCountriesQueryUrl = (apiUrl, query = null) => {
-    if (!query) {
-      return apiUrl;
-    } else {
-      return `${apiUrl}${encodeCountriesQuery(query)}`;
-    }
+    return http(requestConfig);
   };
 
-  return {
-    http,
-    getCountriesQueryUrl,
+  const Post = (props) => {
+    const requestConfig = {
+      method: "post",
+      ...prepareRequestConfig(props),
+    };
+
+    return http(requestConfig);
   };
+
+  const Put = (props) => {
+    const requestConfig = {
+      method: "put",
+      ...prepareRequestConfig(props),
+    };
+
+    return http(requestConfig);
+  };
+
+  const Delete = (props) => {
+    const requestConfig = {
+      method: "delete",
+      ...prepareRequestConfig(props),
+    };
+
+    return http(requestConfig);
+  };
+
+  return { Get, Post, Put, Delete };
 }
 
 export default useApi;

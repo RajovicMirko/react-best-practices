@@ -1,10 +1,5 @@
 import { useState, useEffect } from "react";
 import useApi from "hooks/useApi";
-import {
-  COUNTRIES_API_ENDPOINT,
-  COUNTRIES_BY_REGION_API_ENDPOINT,
-  COUNTRIES_BY_3_CODE_API_ENDPOINT,
-} from "utils/constants";
 
 const _INIT_ERROR = {
   is: false,
@@ -13,20 +8,22 @@ const _INIT_ERROR = {
 
 function useCountries() {
   //#region Hooks
-  const { http, getCountriesQueryUrl } = useApi();
+  const { Get } = useApi();
   //#endregion Hooks
 
   //#region State
-  const [_countries, _setCountries] = useState([]);
-  const [_searchValue, setSearchValue] = useState("");
-  const [_regionFilterValue, setRegionFilterValue] = useState("");
-
   const [isLoading, _setIsLoading] = useState(false);
   const [error, _setError] = useState(_INIT_ERROR);
+
+  const [_countries, _setCountries] = useState([]);
+  const [filteredCountries, _setFilteredCountries] = useState([]);
+
   const [country, _setCountry] = useState({});
   const [borderCountries, _setBorderCountries] = useState([]);
-  const [filteredCountries, _setFilteredCountries] = useState([]);
+
   const [regionOptions, _setRegionOptions] = useState([]);
+  const [_searchValue, setSearchValue] = useState("");
+  const [_regionFilterValue, setRegionFilterValue] = useState("");
   //#endregion State
 
   //#region Private functions
@@ -65,12 +62,14 @@ function useCountries() {
     }
 
     try {
-      const query = {
-        codes: country.borders.join(";"),
+      const apiConfig = {
+        url: "/alpha",
+        query: {
+          codes: country.borders.join(";"),
+        },
       };
-      const url = getCountriesQueryUrl(COUNTRIES_BY_3_CODE_API_ENDPOINT, query);
 
-      const result = await http.get(url);
+      const result = await Get(apiConfig);
       _setBorderCountries(result.data);
       return _endWork();
     } catch (error) {
@@ -100,8 +99,8 @@ function useCountries() {
       return _endWork();
     }
 
-    const url = `${COUNTRIES_BY_REGION_API_ENDPOINT}/${_regionFilterValue}`;
-    const result = await http.get(url);
+    const url = `/region/${_regionFilterValue}`;
+    const result = await Get({ url });
     _setInitState(result.data);
     _endWork();
   };
@@ -134,7 +133,7 @@ function useCountries() {
   //#region Public functions
   const fetchCountries = async () => {
     _startWork();
-    const result = await http.get(COUNTRIES_API_ENDPOINT);
+    const result = await Get({ url: "/all" });
     _prepareRegionOptions(result.data);
     _setInitState(result.data);
     _endWork();
@@ -142,8 +141,8 @@ function useCountries() {
 
   const fetchByAlpha3Code = async (code3char) => {
     _startWork();
-    const url = `${COUNTRIES_BY_3_CODE_API_ENDPOINT}/${code3char}`;
-    const result = await http.get(url);
+    const url = `/alpha/${code3char}`;
+    const result = await Get({ url });
     _setCountry(result.data);
     _endWork();
   };

@@ -1,4 +1,4 @@
-export const check = ({ rules, role, action, dynamicCheckData }) => {
+export const checkPermission = ({ rules, role, action, dynamicCheckData }) => {
   const permissions = rules[role];
   if (!permissions) {
     // role is not present in the rules

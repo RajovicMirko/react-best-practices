@@ -1,13 +1,14 @@
+import { useEffect, useContext } from "react";
+import AuthContext from "context/Auth";
+import useCountries from "hooks/useCountries";
 import usePages from "hooks/usePages";
 
 function User() {
-  const {
-    Can,
-    SUB_ROLES,
-    MODULES,
-    auth: { user },
-    Redirect,
-  } = usePages();
+  const { Redirect } = usePages();
+  const { user, Can, SUB_ROLES, MODULES } = useContext(AuthContext);
+  const { isLoading, countries, fetchCountries } = useCountries();
+
+  useEffect(() => fetchCountries(), []);
 
   return Can({
     perform: MODULES.user.visit,
@@ -16,7 +17,22 @@ function User() {
       validRoles: [SUB_ROLES.userLike],
     },
     yes: () => {
-      return <h2>User page</h2>;
+      switch (true) {
+        case isLoading:
+          return <div>Loading countries...</div>;
+        default:
+          return (
+            <>
+              <h2>User page</h2>
+              {Can({
+                perform: MODULES.user.countries,
+                yes: () => {
+                  return JSON.stringify(countries[0]);
+                },
+              })}
+            </>
+          );
+      }
     },
     no: () => <Redirect to="/" />,
   });

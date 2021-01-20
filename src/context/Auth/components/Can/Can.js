@@ -1,5 +1,6 @@
-import useConfig from "../../useConfig/_index";
-import { check } from "./helper";
+import { useContext } from "react";
+import AuthContext from "../../Auth";
+import { checkPermission } from "./helper";
 
 const defaultProps = {
   perform: "",
@@ -9,13 +10,13 @@ const defaultProps = {
 };
 
 const Can = (args) => {
-  const { auth, RULES } = useConfig();
+  const { user, RULES } = useContext(AuthContext);
   const { perform, dynamicCheckData, yes, no } = { ...defaultProps, ...args };
 
   let test = null;
   const initArgsCheck = {
     dynamicCheckData,
-    role: auth.user.role,
+    role: user.role,
     rules: RULES,
   };
 
@@ -27,7 +28,7 @@ const Can = (args) => {
         action,
       };
 
-      return check(args);
+      return checkPermission(args);
     });
   } else {
     // check single perform true
@@ -36,7 +37,7 @@ const Can = (args) => {
       action: perform,
     };
 
-    test = check(args);
+    test = checkPermission(args);
   }
 
   return test ? yes() : no();

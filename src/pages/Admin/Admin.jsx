@@ -1,13 +1,10 @@
 import usePages from "hooks/usePages";
+import { useContext } from "react";
+import AuthContext from "context/Auth";
 
 export default function AdminPage() {
-  const {
-    Can,
-    MODULES,
-    SUB_ROLES,
-    auth: { user },
-    Redirect,
-  } = usePages();
+  const { Redirect } = usePages();
+  const { user, Can, SUB_ROLES, MODULES } = useContext(AuthContext);
 
   return Can({
     perform: MODULES.admin.visit,

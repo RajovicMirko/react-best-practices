@@ -10,38 +10,29 @@
   auth - data from authorization module
 */
 
-import { BrowserRouter, Redirect, NavLink } from "react-router-dom";
-import useConfig from "./useConfig/_index";
+import { useContext } from "react";
+import { BrowserRouter, Redirect, Link, NavLink } from "react-router-dom";
+import AuthContext from "context/Auth";
 import RouterView from "./components/RouterView";
+import { generatePages } from "./def/pages";
+import { generateLinks } from "./def/links";
 
 const usePages = () => {
-  const { auth, pages, Can, ROLES, SUB_ROLES, MODULES } = useConfig();
+  const auth = useContext(AuthContext);
 
-  const navLinks = pages.filter((page) => {
-    const module = MODULES.app.links[page.name];
-    return (
-      module &&
-      Can({
-        perform: module,
-        dynamicCheckData: {
-          subRoles: auth.user.subRoles,
-          validRoles: [...Object.values(SUB_ROLES)],
-        },
-      })
-    );
-  });
+  const fallbackPath = "/error404";
+  const pages = generatePages();
+  const navLinks = generateLinks({ ...auth, pages });
 
   return {
     Router: BrowserRouter,
     Redirect,
+    Link,
     NavLink,
     RouterView,
     navLinks,
-    ROLES,
-    SUB_ROLES,
-    MODULES,
-    Can,
-    auth,
+    pages,
+    fallbackPath,
   };
 };
 

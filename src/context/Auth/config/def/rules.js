@@ -1,24 +1,6 @@
-import { ROLES, MODULES } from "./roles-modules";
-
-function getDeepKeys(obj) {
-  var values = [];
-  for (var value of Object.values(obj)) {
-    if (typeof value === "object") {
-      values.push(...getDeepKeys(value));
-    } else {
-      values.push(value);
-    }
-  }
-  return values;
-}
-
-const asOwnerCheck = ({ id, ownerId }) => {
-  return !id || !ownerId ? false : id === ownerId;
-};
-
-const subRoleCheck = ({ subRoles = [], validRoles = [] }) => {
-  return validRoles.some((role) => subRoles.includes(role));
-};
+import { getDeepKeys, asOwnerCheck, subRoleCheck } from "./rules-helpers";
+import { ROLES } from "./roles";
+import { MODULES } from "./modules";
 
 export const RULES = {
   [ROLES.admin]: { static: getDeepKeys(MODULES) },
@@ -39,8 +21,9 @@ export const RULES = {
       MODULES.app.links.user,
       MODULES.app.guest,
       MODULES.app.user,
-      MODULES.user.visit,
       MODULES.home.list.view,
+      MODULES.user.visit,
+      MODULES.user.countries,
     ],
     dynamic: {
       [MODULES.app.links.admin]: subRoleCheck,

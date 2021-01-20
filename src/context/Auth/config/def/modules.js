@@ -1,14 +1,3 @@
-export const ROLES = {
-  guest: "guest",
-  user: "user",
-  admin: "admin",
-};
-
-export const SUB_ROLES = {
-  adminLike: "admin-like",
-  userLike: "user-like",
-};
-
 export const MODULES = {
   app: {
     links: {
@@ -29,6 +18,7 @@ export const MODULES = {
   },
   user: {
     visit: "user:visit",
+    countries: "user:countries",
   },
   admin: {
     visit: "admin:visit",

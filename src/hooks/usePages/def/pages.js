@@ -1,13 +1,11 @@
-import baseMetaData from "./baseMetaData";
+import { baseMetaData, generateMetaTitle } from "./_baseData";
 // pages
 import Error404 from "pages/Error404";
 import Home from "pages/Home";
 import User from "pages/User";
 import Admin from "pages/Admin";
 
-const _generateMetaTitle = (title) => `${baseMetaData.title} - ${title}`;
-
-export const generatePages = (args) => {
+export const generatePages = () => {
   return [
     {
       component: Error404,
@@ -26,7 +24,7 @@ export const generatePages = (args) => {
       label: "Home",
       meta: {
         ...baseMetaData,
-        title: _generateMetaTitle("Home"),
+        title: generateMetaTitle("Home"),
       },
     },
     {
@@ -36,7 +34,7 @@ export const generatePages = (args) => {
       label: "User",
       meta: {
         ...baseMetaData,
-        title: _generateMetaTitle("User"),
+        title: generateMetaTitle("User"),
       },
     },
     {
@@ -46,7 +44,7 @@ export const generatePages = (args) => {
       label: "Admin",
       meta: {
         ...baseMetaData,
-        title: _generateMetaTitle("Admin"),
+        title: generateMetaTitle("Admin"),
       },
     },
   ];

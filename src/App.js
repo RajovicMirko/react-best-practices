@@ -1,16 +1,10 @@
+import { useContext } from "react";
+import AuthContext from "context/Auth";
 import usePages from "hooks/usePages";
 
 function App() {
-  const {
-    Router,
-    RouterView,
-    NavLink,
-    navLinks,
-    Can,
-    SUB_ROLES,
-    MODULES,
-    auth: { user },
-  } = usePages();
+  const { Router, RouterView, NavLink, navLinks } = usePages();
+  const { user, Can, SUB_ROLES, MODULES } = useContext(AuthContext);
 
   return (
     <div className="App">

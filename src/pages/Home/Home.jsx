@@ -1,5 +1,6 @@
 import "./Home.css";
-import usePages from "hooks/usePages";
+import { useContext } from "react";
+import AuthContext from "context/Auth";
 
 const data = [
   { id: "1", text: "Mirko's text" },
@@ -14,11 +15,7 @@ const data = [
 ];
 
 function Home() {
-  const {
-    Can,
-    MODULES,
-    auth: { user },
-  } = usePages();
+  const { user, Can, MODULES } = useContext(AuthContext);
 
   const userCanSeeActions = (dynamicCheckData) =>
     Can({
