@@ -9,8 +9,8 @@ const authStateInit = {
   accessToken: "",
   user: {
     id: "1",
-    role: "guest",
-    subRoles: ["user:like"],
+    role: "admin",
+    subRoles: [],
   },
 };
 

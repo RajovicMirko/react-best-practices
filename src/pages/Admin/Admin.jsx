@@ -15,6 +15,6 @@ export default function AdminPage() {
     yes: () => {
       return <h2>Admin page</h2>;
     },
-    no: () => <Redirect to="/" />,
+    no: () => <Redirect to="/not-auth" />,
   });
 }

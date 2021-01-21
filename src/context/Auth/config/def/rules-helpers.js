@@ -17,3 +17,7 @@ export const asOwnerCheck = ({ id, ownerId }) => {
 export const subRoleCheck = ({ subRoles = [], validRoles = [] }) => {
   return validRoles.some((role) => subRoles.includes(role));
 };
+
+export const linkCheck = ({ subRoles = [], validRoles = [] }) => {
+  return subRoleCheck({ subRoles, validRoles });
+};

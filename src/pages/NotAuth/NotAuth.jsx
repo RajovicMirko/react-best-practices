@@ -1,14 +1,14 @@
 import { withRouter } from "react-router-dom";
 
-function Error404(props) {
+function NotAuth(props) {
   const handleGoBack = () => props.history.goBack();
 
   return (
-    <>
-      <h2>Error404 page</h2>
+    <div>
+      <h3>You do not have permission to do this</h3>
       <button onClick={handleGoBack}>Go Back</button>
-    </>
+    </div>
   );
 }
 
-export default withRouter(Error404);
+export default withRouter(NotAuth);

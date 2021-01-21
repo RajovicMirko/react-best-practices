@@ -16,7 +16,7 @@ const Can = (args) => {
   let test = null;
   const initArgsCheck = {
     dynamicCheckData,
-    role: user.role,
+    user,
     rules: RULES,
   };
 

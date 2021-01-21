@@ -1,18 +1,20 @@
 export const generateLinks = (props) => {
-  const { pages, user, Can, SUB_ROLES, MODULES } = props;
+  const { pages, Can, MODULES, user } = props;
 
   return pages.filter((page) => {
-    const module = MODULES.app.links[page.name];
+    const { name, setup = {} } = page;
+    const { isProtected = false, isNavLink = false } = setup;
 
-    return (
-      module &&
-      Can({
-        perform: module,
-        dynamicCheckData: {
-          subRoles: user.subRoles,
-          validRoles: [...Object.values(SUB_ROLES)],
-        },
-      })
-    );
+    if (isProtected) {
+      const module = MODULES.app.links[name];
+      return (
+        module &&
+        Can({ perform: module, dynamicCheckData: { subRoles: user.subRoles } })
+      );
+    } else {
+      if (isNavLink) return true;
+    }
+
+    return false;
   });
 };

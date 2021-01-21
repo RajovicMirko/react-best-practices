@@ -8,34 +8,39 @@ function User() {
   const { user, Can, SUB_ROLES, MODULES } = useContext(AuthContext);
   const { isLoading, countries, fetchCountries } = useCountries();
 
-  useEffect(() => fetchCountries(), []);
-
-  return Can({
+  const canVisitPage = Can({
     perform: MODULES.user.visit,
     dynamicCheckData: {
       subRoles: user.subRoles,
       validRoles: [SUB_ROLES.userLike],
     },
-    yes: () => {
-      switch (true) {
-        case isLoading:
-          return <div>Loading countries...</div>;
-        default:
-          return (
-            <>
-              <h2>User page</h2>
-              {Can({
-                perform: MODULES.user.countries,
-                yes: () => {
-                  return JSON.stringify(countries[0]);
-                },
-              })}
-            </>
-          );
-      }
-    },
-    no: () => <Redirect to="/" />,
   });
+
+  const canViewCountries = Can({
+    perform: MODULES.user.countries,
+    dynamicCheckData: {
+      subRoles: user.subRoles,
+      validRoles: [SUB_ROLES.userLike],
+    },
+  });
+
+  useEffect(() => canViewCountries && fetchCountries(), []);
+
+  if (canVisitPage) {
+    switch (true) {
+      case isLoading:
+        return <div>Loading countries...</div>;
+      default:
+        return (
+          <>
+            <h2>User page</h2>
+            {canViewCountries && JSON.stringify(countries[0])}
+          </>
+        );
+    }
+  } else {
+    return <Redirect to="/not-auth" />;
+  }
 }
 
 export default User;

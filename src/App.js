@@ -22,10 +22,6 @@ function App() {
 
           {Can({
             perform: MODULES.app.user,
-            dynamicCheckData: {
-              subRoles: user.subRoles,
-              validRoles: [SUB_ROLES.userLike],
-            },
             yes: () => <h4>User {user.name || "name-empty"} can see</h4>,
           })}
 

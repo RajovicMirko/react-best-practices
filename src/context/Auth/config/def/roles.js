@@ -5,6 +5,6 @@ export const ROLES = {
 };
 
 export const SUB_ROLES = {
-  adminLike: "admin:like",
   userLike: "user:like",
+  adminLike: "admin:like",
 };

@@ -1,5 +1,10 @@
-import { getDeepKeys, asOwnerCheck, subRoleCheck } from "./rules-helpers";
-import { ROLES } from "./roles";
+import {
+  getDeepKeys,
+  asOwnerCheck,
+  subRoleCheck,
+  linkCheck,
+} from "./rules-helpers";
+import { ROLES, SUB_ROLES } from "./roles";
 import { MODULES } from "./modules";
 
 export const RULES = {
@@ -8,8 +13,14 @@ export const RULES = {
   [ROLES.guest]: {
     static: [MODULES.app.guest, MODULES.home.list.view],
     dynamic: {
-      [MODULES.app.links.home]: subRoleCheck,
-      [MODULES.app.links.user]: subRoleCheck,
+      [MODULES.app.links.home]: ({ subRoles }) => {
+        const validRoles = [SUB_ROLES.userLike];
+        return linkCheck({ subRoles, validRoles });
+      },
+      [MODULES.app.links.user]: ({ subRoles }) => {
+        const validRoles = [SUB_ROLES.userLike];
+        return linkCheck({ subRoles, validRoles });
+      },
       [MODULES.user.visit]: subRoleCheck,
       [MODULES.app.user]: subRoleCheck,
     },
@@ -26,9 +37,12 @@ export const RULES = {
       MODULES.user.countries,
     ],
     dynamic: {
-      [MODULES.app.links.admin]: subRoleCheck,
-      [MODULES.app.admin]: subRoleCheck,
+      [MODULES.app.links.admin]: ({ subRoles }) => {
+        const validRoles = [SUB_ROLES.adminLike];
+        return linkCheck({ subRoles, validRoles });
+      },
       [MODULES.admin.visit]: subRoleCheck,
+      [MODULES.app.admin]: subRoleCheck,
       [MODULES.home.list.edit]: asOwnerCheck,
       [MODULES.home.list.delete]: asOwnerCheck,
     },

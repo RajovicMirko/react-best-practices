@@ -20,9 +20,12 @@ import { generateLinks } from "./def/links";
 const usePages = () => {
   const auth = useContext(AuthContext);
 
-  const fallbackPath = "/error404";
   const pages = generatePages();
+
   const navLinks = generateLinks({ ...auth, pages });
+
+  const fallbackPage = pages.find((page) => page.fallback);
+  const fallbackPath = fallbackPage ? fallbackPage.path : "/";
 
   return {
     Router: BrowserRouter,
